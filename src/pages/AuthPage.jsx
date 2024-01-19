@@ -2,11 +2,15 @@ import { useState } from "react"
 import { auth, provider } from "../firebase/config"
 import { signInWithPopup } from "firebase/auth"
 
-const AuthPage = () => {
+const AuthPage = ({ setIsAuth }) => {
 
   const handleClick = () => {
     signInWithPopup(auth, provider)
-      .then((data) => { })
+      .then((data) => { 
+        setIsAuth(true)
+        localStorage.setItem("TOKEN", data.user.refreshToken)
+        console.log(data);
+      })
   }
 
   return (
@@ -17,9 +21,9 @@ const AuthPage = () => {
 
         <p>Sign in to continue</p>
 
-        <button onClick={handleClick}>
-          <img src="/g-logo.png"/>
-          <span>Sign in with Google</span>
+        <button className="sign-in" onClick={handleClick}>
+          <img src="/g-logo.png" />
+          <span >Sign in with Google</span>
         </button>
       </div>
     </div>
